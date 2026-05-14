@@ -1,5 +1,6 @@
 using System.Net.Http.Headers;
 using System.Text.Json;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using VitrineBilhar.Domain.Shipping;
 using VitrineBilhar.Infrastructure.Options;
@@ -8,7 +9,8 @@ namespace VitrineBilhar.Infrastructure.Services;
 
 public sealed class MelhorEnvioShippingService(
     IHttpClientFactory httpClientFactory,
-    IOptions<MelhorEnvioOptions> options) : IShippingService
+    IOptions<MelhorEnvioOptions> options,
+    ILogger<MelhorEnvioShippingService> logger) : IShippingService
 {
     public async Task<decimal> CalculateAsync(Guid tenantId, string destinationZipCode, decimal orderTotal, CancellationToken cancellationToken = default)
     {
@@ -24,6 +26,7 @@ public sealed class MelhorEnvioShippingService(
             using var response = await client.GetAsync("api/v2/me/shipment/companies", cancellationToken);
             if (!response.IsSuccessStatusCode)
             {
+                logger.LogWarning("Melhor Envio retornou status {StatusCode}", response.StatusCode);
                 return 0m;
             }
 
@@ -31,8 +34,9 @@ public sealed class MelhorEnvioShippingService(
             var doc = JsonDocument.Parse(content);
             return doc.RootElement.ValueKind == JsonValueKind.Array ? 10m : 0m;
         }
-        catch
+        catch (Exception exception)
         {
+            logger.LogWarning(exception, "Falha ao consultar Melhor Envio.");
             return 0m;
         }
     }
