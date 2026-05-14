@@ -32,6 +32,7 @@ public sealed class CustomWebApplicationFactory : WebApplicationFactory<Program>
 
     public override async ValueTask DisposeAsync()
     {
+        _connection.Close();
         await _connection.DisposeAsync();
         await base.DisposeAsync();
     }

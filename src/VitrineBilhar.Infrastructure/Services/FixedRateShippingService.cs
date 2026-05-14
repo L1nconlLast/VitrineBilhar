@@ -55,7 +55,7 @@ public sealed class FixedRateShippingService(
         }
         catch (Exception exception)
         {
-            logger.LogWarning(exception, "Falha ao consultar ViaCEP para CEP {ZipCode}", normalizedZipCode);
+            logger.LogWarning(exception, "Falha ao consultar ViaCEP para cálculo de frete.");
             return null;
         }
     }

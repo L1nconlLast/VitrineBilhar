@@ -12,6 +12,8 @@ public sealed class MelhorEnvioShippingService(
     IOptions<MelhorEnvioOptions> options,
     ILogger<MelhorEnvioShippingService> logger) : IShippingService
 {
+    private const decimal StubRate = 10m;
+
     public async Task<decimal> CalculateAsync(Guid tenantId, string destinationZipCode, decimal orderTotal, CancellationToken cancellationToken = default)
     {
         var client = httpClientFactory.CreateClient("MelhorEnvio");
@@ -32,7 +34,7 @@ public sealed class MelhorEnvioShippingService(
 
             var content = await response.Content.ReadAsStringAsync(cancellationToken);
             var doc = JsonDocument.Parse(content);
-            return doc.RootElement.ValueKind == JsonValueKind.Array ? 10m : 0m;
+            return doc.RootElement.ValueKind == JsonValueKind.Array ? StubRate : 0m;
         }
         catch (Exception exception)
         {

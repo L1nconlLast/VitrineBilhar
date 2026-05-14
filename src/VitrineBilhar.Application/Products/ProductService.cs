@@ -53,7 +53,6 @@ public sealed class ProductService(
         product.Price = request.Price;
         product.IsActive = request.IsActive;
         product.CategoryId = request.CategoryId;
-        product.UpdatedAtUtc = DateTime.UtcNow;
 
         await dbContext.SaveChangesAsync(cancellationToken);
         return true;
@@ -82,12 +81,19 @@ public sealed class ProductService(
 
         tenantContext.SetTenant(tenant.TenantId, tenant.TenantSlug);
 
-        return await dbContext.Products
-            .AsNoTracking()
-            .Where(p => p.IsActive)
-            .OrderBy(p => p.Name)
-            .Select(MapExpression())
-            .ToListAsync(cancellationToken);
+        try
+        {
+            return await dbContext.Products
+                .AsNoTracking()
+                .Where(p => p.IsActive)
+                .OrderBy(p => p.Name)
+                .Select(MapExpression())
+                .ToListAsync(cancellationToken);
+        }
+        finally
+        {
+            tenantContext.Clear();
+        }
     }
 
     private static ProductDto Map(Product product)
