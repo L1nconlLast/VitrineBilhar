@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/VitrineBilhar.API/VitrineBilhar.API.csproj" />
+    <Project Path="src/VitrineBilhar.Application/VitrineBilhar.Application.csproj" />
+    <Project Path="src/VitrineBilhar.Domain/VitrineBilhar.Domain.csproj" />
+    <Project Path="src/VitrineBilhar.Infrastructure/VitrineBilhar.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/VitrineBilhar.API.IntegrationTests/VitrineBilhar.API.IntegrationTests.csproj" />
+    <Project Path="tests/VitrineBilhar.Application.Tests/VitrineBilhar.Application.Tests.csproj" />
+    <Project Path="tests/VitrineBilhar.Domain.Tests/VitrineBilhar.Domain.Tests.csproj" />
+  </Folder>
+</Solution>
