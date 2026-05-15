@@ -35,7 +35,7 @@ docker compose up -d postgres
 2. Rode a API:
 
 ```bash
-dotnet run --project /home/runner/work/VitrineBilhar/VitrineBilhar/src/VitrineBilhar.API
+dotnet run --project src/VitrineBilhar.API
 ```
 
 ## Migrações EF Core
