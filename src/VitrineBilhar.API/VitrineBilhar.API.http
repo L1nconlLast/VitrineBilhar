@@ -1,0 +1,6 @@
+@VitrineBilhar.API_HostAddress = http://localhost:5155
+
+GET {{VitrineBilhar.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
